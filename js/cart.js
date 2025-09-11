@@ -8,7 +8,7 @@ const addProduct = () => {
 
     console.log(product, quantity);
     displayProduct(product, quantity);
-    
+    saveProductToLocalStorage(product, quantity);
 }
 
 const displayProduct = (product, quantity) => {
@@ -17,3 +17,34 @@ const displayProduct = (product, quantity) => {
     li.innerText = `${product} : ${quantity}`
     ul.appendChild(li);
 }
+
+const getStoredShoppingCart = () => {
+    let cart = {};
+    const storeCart = localStorage.getItem('cart');
+    if (storeCart) {
+        cart = JSON.parse(storeCart);
+    }
+    return cart;
+}
+
+
+const saveProductToLocalStorage = (product, quantity) => {
+    const cart = getStoredShoppingCart();
+    cart[product] = quantity;
+    console.log(cart);
+    const cartStringified = JSON.stringify(cart);
+   localStorage.setItem('cart', cartStringified)
+    
+}
+
+const displayProductFromLoaclStorage = () => {
+  const saveCart = getStoredShoppingCart();
+  console.log(saveCart);
+  for(const product in saveCart){
+    const quantity = saveCart[product]
+    console.log(product, quantity);
+    displayProduct(product, quantity);
+  }
+  
+}
+displayProductFromLoaclStorage()
